@@ -192,7 +192,7 @@ paths:
           schema:
             $ref: '#/definitions/Error'
             
-  /act/{act_id}/user_acts:
+  /acts/{act_id}/user_acts:
     post:
       tags:
         - user_actions
@@ -222,7 +222,7 @@ paths:
           description: Error
           schema:
             $ref: '#/definitions/Error'
-  /act/{act_id}/user_acts/{id}:
+  /acts/{act_id}/user_acts/{id}:
     put:
       tags:
         - user_actions
@@ -257,7 +257,7 @@ paths:
           description: Error
           schema:
             $ref: '#/definitions/Error'
-  /act/{act_id}/user_acts/{id}/comments:
+  /acts/{act_id}/user_acts/{id}/comments:
     post:
       tags:
         - comments
@@ -292,7 +292,7 @@ paths:
           description: Error
           schema:
             $ref: '#/definitions/Error'       
-  /act/{act_id}/user_acts/{user_act_id}/comments/:
+  /acts/{act_id}/user_acts/{user_act_id}/comments/:
     get:
       tags:
         - comments
