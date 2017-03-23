@@ -6,7 +6,6 @@ info:
 host: backend.bangbang.mystand.ru
 schemes:
   - http
-basePath: ''
 produces:
   - application/json
 paths:
@@ -37,7 +36,31 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-
+  /stream:
+    get:
+      tags:
+        - stream
+      summary: Get stream items
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: JWT token auth
+          default: 'Bearer <copy your JWT-token here>'
+          type: string
+          format: string
+        - name: page
+          in: query
+          description: "page number"
+          type: string
+          format: string
+      responses: 
+        200:
+          description: Stream items list
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/Error'            
   /users:
     post:
       tags: 
@@ -409,6 +432,10 @@ definitions:
     type: object
     properties:
       email: 
+        type: string
+      first_name:
+        type: string
+      second_name:
         type: string
       password:
         type: string
