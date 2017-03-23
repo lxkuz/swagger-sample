@@ -1,0 +1,424 @@
+swagger: '2.0'
+info:
+  title: BangBang API
+  description: API for frontend part and mobile platforms
+  version: "3.0.0"
+host: localhost:3000
+schemes:
+  - http
+basePath: /
+produces:
+  - application/json
+paths:
+  /auth:
+    post:
+      tags:
+        - auth
+      summary: Get JWT token by email and password
+      parameters:
+        - name: email
+          in: query
+          description: User email
+          required: true
+          type: string
+          format: email
+          default: admin@mystand.ru
+        - name: password
+          in: query
+          description: User password
+          required: true
+          type: string
+          format: password
+          default: 123qwe123qwe
+      responses:
+        200:
+          description: JWT token auth
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
+  /users:
+    post:
+      tags: 
+        - users
+      summary: Create user
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: JWT token auth
+          default: 'Bearer <copy your JWT-token here>'
+          type: string
+          format: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        200:
+          description: User created
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/Error'  
+  /users/{id}:
+    put:
+      tags: 
+        - users
+      summary: Update user
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: JWT token auth
+          default: 'Bearer <copy your JWT-token here>'
+          type: string
+          format: string
+        - name: id
+          in: path
+          description: "user id"
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        200:
+          description: User updated
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/Error'          
+  /acts:
+    get:
+      tags:
+        - actions
+      summary: Get actions
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: JWT token auth
+          default: 'Bearer <copy your JWT-token here>'
+          type: string
+          format: string
+        - name: page
+          in: query
+          description: "page number"
+          type: string
+          format: string
+        - name: by_geography
+          in: query
+          description: order by point
+          type: string
+          format: string
+        - name: by_organizations
+          in: query
+          description: filter by organization ids
+          type: array
+          items:
+            type: integer
+            format: integer
+        - name: by_categories
+          in: query
+          description: filter by categories ids
+          type: array
+          items:
+            type: integer
+            format: integer
+      responses:
+        200:
+          description: Index success
+        default: 
+          description: Error
+          schema:
+            $ref: '#/definitions/Error'
+    post:
+      tags: 
+        - actions
+      summary: Create act
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: JWT token auth
+          default: 'Bearer <copy your JWT-token here>'
+          type: string
+          format: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Act'
+      responses:
+        200:
+          description: act created
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/Error'
+  /acts/{id}:
+    put:
+      tags:
+        - actions
+      summary: Update action
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: JWT token auth
+          default: 'Bearer <copy your JWT-token here>'
+          type: string
+          format: string
+        - name: id
+          in: path
+          description: "action id"
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Act'
+      responses: 
+        200:
+          description: Action updated
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/Error'
+            
+  /act/{act_id}/user_acts:
+    post:
+      tags:
+        - user_actions
+      summary: Save action
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: JWT token auth
+          default: 'Bearer <copy your JWT-token here>'
+          type: string
+          format: string
+        - name: act_id
+          in: path
+          description: "action id"
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/UserAct'
+      responses: 
+        200:
+          description: User action created
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/Error'
+  /act/{act_id}/user_acts/{id}:
+    put:
+      tags:
+        - user_actions
+      summary: Do the action
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: JWT token auth
+          default: 'Bearer <copy your JWT-token here>'
+          type: string
+          format: string
+        - name: id
+          in: path
+          description: "user action id"
+          required: true
+          type: string
+        - name: act_id
+          in: path
+          description: "action id"
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/UserAct'
+      responses: 
+        200:
+          description: User action created
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/Error'
+  /act/{act_id}/user_acts/{id}/comments:
+    post:
+      tags:
+        - comments
+      summary: Create comment for completed action
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: JWT token auth
+          default: 'Bearer <copy your JWT-token here>'
+          type: string
+          format: string
+        - name: id
+          in: path
+          description: "user action id"
+          required: true
+          type: string
+        - name: act_id
+          in: path
+          description: "action id"
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Comment'
+      responses: 
+        200:
+          description: User action created
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/Error'       
+  /act/{act_id}/user_acts/{user_act_id}/comments/:
+    get:
+      tags:
+        - comments
+      summary: Get comments for completed action
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: JWT token auth
+          default: 'Bearer <copy your JWT-token here>'
+          type: string
+          format: string
+        - name: page
+          in: query
+          description: "page number"
+          type: string
+          format: string
+        - name: user_act_id
+          in: path
+          description: "user action id"
+          required: true
+          type: string
+        - name: act_id
+          in: path
+          description: "action id"
+          required: true
+          type: string
+      responses: 
+        200:
+          description: User action created
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/Error'
+  /categories:
+    get:
+      tags:
+        - categories
+      summary: Get categories
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: JWT token auth
+          default: 'Bearer <copy your JWT-token here>'
+          type: string
+          format: string
+        - name: page
+          in: query
+          description: "page number"
+          type: string
+          format: string
+      responses: 
+        200:
+          description: Categories list
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/Error'   
+  /organizations:
+    get:
+      tags:
+        - organizations
+      summary: Get organizations
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: JWT token auth
+          default: 'Bearer <copy your JWT-token here>'
+          type: string
+          format: string
+        - name: page
+          in: query
+          description: "page number"
+          type: string
+          format: string
+      responses: 
+        200:
+          description: Organizations list
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  Act:
+    type: object
+    properties:
+      title:
+        type: string
+      description:
+        type: string
+      hidden:  
+        type: boolean
+      address:
+        type: string
+      data:
+        type: object
+  UserAct:
+    type: object
+    properties:
+      data:  
+        type: object
+      state:
+        type: string
+      description:
+        type: string
+  Comment:
+    type: object
+    properties:
+      content: 
+        type: string
+  User:
+    type: object
+    properties:
+      email: 
+        type: string
+      password:
+        type: string
+      password_confirmation:
+        type: string        
+        
+  Error:
+    type: object
+    properties:
+      errors:
+        type: array
+        items: 
+         type: string
