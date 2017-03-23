@@ -421,6 +421,10 @@ definitions:
         type: object
       state:
         type: string
+        enum: 
+          - "waiting"
+          - "doing"
+          - "done"
       description:
         type: string
   Comment:
