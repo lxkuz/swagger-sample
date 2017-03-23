@@ -3,10 +3,10 @@ info:
   title: BangBang API
   description: API for frontend part and mobile platforms
   version: "3.0.0"
-host: localhost:3000
+host: http://backend.bangbang.mystand.ru
 schemes:
   - http
-basePath: /
+basePath: ''
 produces:
   - application/json
 paths:
