@@ -3,7 +3,7 @@ info:
   title: BangBang API
   description: API for frontend part and mobile platforms
   version: "3.0.0"
-host: backend.bangbang.mystand.ru
+host: localhost:3000
 schemes:
   - http
 produces:
@@ -36,7 +36,7 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-  /stream:
+  /stream_items:
     get:
       tags:
         - stream
@@ -60,7 +60,32 @@ paths:
         default:
           description: Error
           schema:
-            $ref: '#/definitions/Error'            
+            $ref: '#/definitions/Error'     
+  /stream_items/{id}:
+    get:
+      tags:
+        - stream
+      summary: Get stream item
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: JWT token auth
+          default: 'Bearer <copy your JWT-token here>'
+          type: string
+          format: string
+        - name: id
+          in: path
+          description: "id"
+          required: true
+          type: string
+      responses: 
+        200:
+          description: Stream item
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/Error'          
   /users:
     post:
       tags: 
@@ -112,6 +137,30 @@ paths:
       responses:
         200:
           description: User updated
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/Error'      
+    get:
+      tags: 
+        - users
+      summary: Show user
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: JWT token auth
+          default: 'Bearer <copy your JWT-token here>'
+          type: string
+          format: string
+        - name: id
+          in: path
+          description: "id"
+          required: true
+          type: string
+      responses:
+        200:
+          description: User show
         default:
           description: Error
           schema:
@@ -219,6 +268,30 @@ paths:
           description: Error
           schema:
             $ref: '#/definitions/Error'
+    get:
+      tags:
+        - actions
+      summary: Show action
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: JWT token auth
+          default: 'Bearer <copy your JWT-token here>'
+          type: string
+          format: string
+        - name: id
+          in: path
+          description: "id"
+          required: true
+          type: string
+      responses: 
+        200:
+          description: Action updated
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/Error'
             
   /user_acts:
     post:
@@ -244,7 +317,32 @@ paths:
         default:
           description: Error
           schema:
-            $ref: '#/definitions/Error'            
+            $ref: '#/definitions/Error'   
+  /user_acts/{id}:
+    get:
+      tags:
+        - user_actions
+      summary: Show user action
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: JWT token auth
+          default: 'Bearer <copy your JWT-token here>'
+          type: string
+          format: string
+        - name: id
+          in: path
+          description: "id"
+          required: true
+          type: string
+      responses: 
+        200:
+          description: User action created
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/Error'        
   /acts/{act_id}/user_acts:
     post:
       tags:
@@ -380,6 +478,41 @@ paths:
           description: Error
           schema:
             $ref: '#/definitions/Error'
+  /acts/{act_id}/user_acts/{user_act_id}/comments/{id}:
+    get:
+      tags:
+        - comments
+      summary: Get comments for completed action
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: JWT token auth
+          default: 'Bearer <copy your JWT-token here>'
+          type: string
+          format: string
+        - name: user_act_id
+          in: path
+          description: "user action id"
+          required: true
+          type: string
+        - name: act_id
+          in: path
+          description: "action id"
+          required: true
+          type: string
+        - name: id
+          in: path
+          description: "id"
+          required: true
+          type: string
+      responses: 
+        200:
+          description: User action created
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/Error'
   /categories:
     get:
       tags:
@@ -405,6 +538,31 @@ paths:
           description: Error
           schema:
             $ref: '#/definitions/Error'   
+  /categories/{id}:
+    get:
+      tags:
+        - categories
+      summary: Get categories
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: JWT token auth
+          default: 'Bearer <copy your JWT-token here>'
+          type: string
+          format: string
+        - name: id
+          in: path
+          description: "id"
+          required: true
+          type: string
+      responses: 
+        200:
+          description: Categories list
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/Error'             
   /organizations:
     get:
       tags:
@@ -430,6 +588,31 @@ paths:
           description: Error
           schema:
             $ref: '#/definitions/Error'
+  /organizations/{id}:
+    get:
+      tags: 
+        - organizations
+      summary: Show organization
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: JWT token auth
+          default: 'Bearer <copy your JWT-token here>'
+          type: string
+          format: string
+        - name: id
+          in: path
+          description: "id"
+          required: true
+          type: string
+      responses:
+        200:
+          description: User updated
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/Error'                 
 definitions:
   Act:
     type: object
