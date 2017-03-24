@@ -220,6 +220,31 @@ paths:
           schema:
             $ref: '#/definitions/Error'
             
+  /user_acts:
+    post:
+      tags:
+        - user_actions
+      summary: Let me post
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: JWT token auth
+          default: 'Bearer <copy your JWT-token here>'
+          type: string
+          format: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/UserActLetMePost'
+      responses: 
+        200:
+          description: User action created
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/Error'            
   /acts/{act_id}/user_acts:
     post:
       tags:
@@ -439,6 +464,39 @@ definitions:
           - "done"
       description:
         type: string
+  UserActLetMePost:
+    type: object
+    properties:
+      data:  
+        type: object
+      state:
+        type: string
+        enum: 
+          - "waiting"
+          - "doing"
+          - "done"
+      description:
+        type: string  
+      act:
+        type: object  
+        properties:
+          title:
+            type: string
+          description:
+            type: string
+          hidden:  
+            type: boolean
+          address:
+            type: string
+          data:
+            type: object
+          kind:
+            type: string
+            enum:
+              - "basic"
+              - "call"
+              - "paypal"
+              - "message"            
   Comment:
     type: object
     properties:
