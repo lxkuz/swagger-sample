@@ -3,7 +3,7 @@ info:
   title: BangBang API
   description: API for frontend part and mobile platforms
   version: "3.0.0"
-host: backend.bangbang.mystand.ru
+host: backend.bangbang.mystand.ru  #localhost:3000
 schemes:
   - http
 produces:
@@ -283,6 +283,32 @@ paths:
         - name: id
           in: path
           description: "id"
+          required: true
+          type: string
+      responses: 
+        200:
+          description: Action updated
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/Error'
+
+  /acts/{id}/toggle:
+    post:
+      tags:
+        - actions
+      summary: Update saved action
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: JWT token auth
+          default: 'Bearer <copy your JWT-token here>'
+          type: string
+          format: string
+        - name: id
+          in: path
+          description: "action id"
           required: true
           type: string
       responses: 
@@ -588,6 +614,35 @@ paths:
           description: Error
           schema:
             $ref: '#/definitions/Error'
+    post:
+      tags:
+        - organizations
+      summary: Create organization
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: JWT token auth
+          default: 'Bearer <copy your JWT-token here>'
+          type: string
+          format: string
+        - name: image
+          in: formData
+          description: "Image"
+          type: file
+          format: file
+        - name: title
+          in: formData
+          description: "Title"
+          type: string
+          format: string
+      responses: 
+        200:
+          description: Organization created
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/Error'
   /organizations/{id}:
     get:
       tags: 
@@ -612,7 +667,41 @@ paths:
         default:
           description: Error
           schema:
-            $ref: '#/definitions/Error'                 
+            $ref: '#/definitions/Error'       
+    put:
+      tags:
+        - organizations
+      summary: Update organization
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: JWT token auth
+          default: 'Bearer <copy your JWT-token here>'
+          type: string
+          format: string
+        - name: id
+          in: path
+          description: "id"
+          required: true
+          type: string
+        - name: image
+          in: formData
+          description: "Image"
+          type: file
+          format: file
+        - name: title
+          in: formData
+          description: "Title"
+          type: string
+          format: string
+      responses: 
+        200:
+          description: Organization created
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/Error'          
 definitions:
   Act:
     type: object
